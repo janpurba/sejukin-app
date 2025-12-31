@@ -1,0 +1,39 @@
+services:
+  # 1. Database (Sama seperti di laptop)
+  mysqldb:
+    image: mysql:8.0
+    container_name: sejukin-mysql
+    restart: always # Kalau server restart, database nyala sendiri
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sejukin_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - sejukin-net
+
+  # 2. Aplikasi Backend (EDISI PRODUCTION)
+  backend:
+    # PERBEDAANNYA DI SINI 👇
+    # Jangan pakai 'build: .', tapi panggil image yang sudah di-upload tadi
+    image: janpurba/sejukin-app:v1
+
+    container_name: sejukin-app
+    restart: always
+    ports:
+      - "80:8080" # Mapping Port 80 (HTTP biasa) ke 8080 (Java)
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    depends_on:
+      - mysqldb
+    networks:
+      - sejukin-net
+
+volumes:
+  mysql_data:
+
+networks:
+  sejukin-net:
+    driver: bridge

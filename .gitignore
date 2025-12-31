@@ -1,0 +1,25 @@
+# Java Compiled
+target/
+*.class
+
+# IDE Settings (IntelliJ / Eclipse / VSCode)
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Docker (Optional, kalau ada file local override)
+docker-compose.override.yml
+
+# Maven Wrapper (Boleh diupload, boleh tidak. Biasanya diupload biar orang lain gampang build)
+!.mvn/wrapper/maven-wrapper.jar
