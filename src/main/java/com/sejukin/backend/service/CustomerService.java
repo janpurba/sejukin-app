@@ -28,7 +28,7 @@ public class CustomerService {
     }
 
     // MENU 1: Ambil semua pelanggan milik user tertentu
-    @Cacheable(value = "customerList")
+    @Cacheable(value = "userDetailsRedis")
     public List<Customer> getAllCustomersByUsername(String username) {
         User currentUser = getUserByUsername(username);
         log.info("Mengambil data pelanggan untuk user: {}", username);
@@ -36,7 +36,7 @@ public class CustomerService {
     }
 
     @Transactional // Pastikan aman
-    @CacheEvict(value = "customerList", allEntries = true)
+    @CacheEvict(value = "userDetailsRedis", allEntries = true)
     public void saveCustomer(Customer customer, String username) {
         User currentUser = getUserByUsername(username);
         customer.setTenantId(currentUser.getId());
