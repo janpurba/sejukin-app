@@ -5,16 +5,28 @@ A web-based application designed to assist field technicians in managing custome
 ## 🚀 Key Features
 
 * **Multi-Tenancy Architecture:** Ensures data privacy where each technician (user) can only access and manage their own list of customers.
-* **Customer Management:** Complete CRUD (Create, Read, Update, Delete) operations for customer data.
-* **Service History Tracking:** Records detailed service logs, pricing, and dates.
-* **Smart Auto-Reminder:** Automatically calculates and schedules the next service date (default: 90 days after the last service).
-* **Secure Authentication:** Robust login system using **Spring Security** with BCrypt password hashing.
+* **Customer Management:** 
+    * Complete CRUD (Create, Read, Update, Delete) operations.
+    * **WhatsApp Validation:** Ensures phone numbers are valid Indonesian numbers connected to WhatsApp.
+    * **Quick Edit:** Update customer contact details directly from the list.
+* **Service History Tracking:** 
+    * Records detailed service logs, pricing, and dates.
+    * View complete service history per customer.
+* **Smart Auto-Reminder:** 
+    * Automatically calculates and schedules the next service date (default: 90 days after the last service).
+    * **Dashboard Overview:** Monitor pending and sent reminders.
+* **Dashboard Analytics:** Real-time overview of total customers, total services performed, and reminder statuses.
+* **Secure Authentication:** 
+    * Robust login system using **Spring Security** with BCrypt password hashing.
+    * **User Status Validation:** Only active users can access the system.
+    * **Role-Based Access Control:** Flexible role management via Lookup tables.
 * **Responsive UI:** Built with Thymeleaf and Bootstrap for accessibility on mobile and desktop devices.
 
 ## 🛠 Tech Stack
 
 * **Backend:** Java 17, Spring Boot 3
 * **Database:** MySQL 8.0
+* **Caching:** Redis
 * **Security:** Spring Security, BCrypt
 * **Containerization:** Docker, Docker Compose
 * **Build Tool:** Maven
@@ -26,7 +38,7 @@ The easiest way to run this application is using Docker. Ensure you have **Docke
 
 1.  **Clone the Repository**
     ```bash
-    git clone [https://github.com/janpurba/sejukin-app.git](https://github.com/YOUR_USERNAME/sejukin-app.git)
+    git clone https://github.com/janpurba/sejukin-app.git
     cd sejukin-app
     ```
 
@@ -42,7 +54,7 @@ The easiest way to run this application is using Docker. Ensure you have **Docke
     ```
 
 4.  **Access the Application**
-    Open your browser and navigate to: `http://localhost:8080/pelanggan`
+    Open your browser and navigate to: `http://localhost:8080/auth/login`
 
 ## 💻 How to Run (Local / Manual)
 
@@ -64,4 +76,4 @@ Use this account to log in for the first time:
 * **Password:** `admin123`
 
 ---
-*Developed by janpurba*# sejukin-app
+*Developed by janpurba*
