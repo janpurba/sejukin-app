@@ -15,4 +15,8 @@ public interface ServiceRecordRepository extends JpaRepository<ServiceRecord, Lo
             "left join fetch o.customer where o.nextReminderDate =:date " +
             " and o.reminderStatus =:status")
     List<ServiceRecord> findByNextReminderDateAndReminderStatus(LocalDate date, String status);
+
+    List<ServiceRecord> findByCustomerIdOrderByServiceDateDesc(Long customerId);
+
+    long countByReminderStatus(String status);
 }

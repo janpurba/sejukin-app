@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -42,5 +43,9 @@ public class TransactionService {
         // 3. Simpan
         serviceRecordRepository.save(record);
         log.info("Transaksi tersimpan. Reminder dijadwalkan tanggal: {}", reminderDate);
+    }
+
+    public List<ServiceRecord> getServiceHistory(Long customerId) {
+        return serviceRecordRepository.findByCustomerIdOrderByServiceDateDesc(customerId);
     }
 }

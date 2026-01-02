@@ -13,7 +13,7 @@
         </div>
         <div class="card-body">
 
-            <form th:action="@{/save-service}" th:object="${serviceRecord}" method="post">
+            <form th:action="@{/transaction/save-service}" th:object="${serviceRecord}" method="post">
                 <input type="hidden" name="customerId" th:value="${customerId}" />
 
                 <div class="mb-3">

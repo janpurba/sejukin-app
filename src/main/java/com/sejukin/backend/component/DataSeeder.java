@@ -23,7 +23,7 @@ public class DataSeeder implements CommandLineRunner {
             User user = new User();
             user.setUsername("admin");
             user.setPassword(passwordEncoder.encode("admin123")); // Passwordnya: admin123
-            user.setRole("ADMIN");
+            // Role sekarang via level, nanti bisa diset lookup level ADMIN
             userRepository.save(user);
             System.out.println(">>> User ADMIN berhasil dibuat. Login: admin / admin123");
         }

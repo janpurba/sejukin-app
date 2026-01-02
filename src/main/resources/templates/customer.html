@@ -19,6 +19,11 @@
             </button>
         </div>
 
+        <div th:if="${param.updated}" class="alert alert-success alert-dismissible fade show" role="alert">
+            Data pelanggan berhasil diperbarui!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="card shadow-sm">
             <div class="card-body p-0">
                 <table class="table table-hover mb-0">
@@ -27,24 +32,73 @@
                         <th>Nama</th>
                         <th>No HP</th>
                         <th>Alamat</th>
-                        <th>Terakhir Servis</th>
-                        <th>Servis Berikutnya</th>
+                        <th>Riwayat Layanan</th>
                         <th>Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <tr th:if="${#lists.isEmpty(customers)}">
+                        <td colspan="5" class="text-center py-3 text-muted">
+                            Belum ada data pelanggan.
+                        </td>
+                    </tr>
                     <tr th:each="p : ${customers}">
                         <td th:text="${p.name}"></td>
                         <td th:text="${p.phoneNumber}"></td>
                         <td th:text="${p.address}"></td>
-                        <td th:text="${p.notes}"></td>
-                        <td th:text="${p.tanggalServisTerakhir}"></td>
                         <td>
-                                <span class="badge bg-warning text-dark"
-                                      th:text="${p.tanggalServisBerikutnya}"></span>
+                            <a th:href="@{/transaction/history/{id}(id=${p.id})}" class="btn btn-sm btn-info text-white" title="Lihat Riwayat">
+                                <i class="bi bi-clock-history"></i> Riwayat
+                            </a>
                         </td>
                         <td>
-                            <a th:href="@{/pelanggan/hapus/{id}(id=${p.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')"><i class="bi bi-trash"></i></a>
+                            <button type="button" class="btn btn-sm btn-warning text-dark"
+                                    data-bs-toggle="modal"
+                                    th:data-bs-target="'#modalEdit' + ${p.id}"
+                                    title="Edit Data">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <a th:href="@{/transaction/input-service/{id}(id=${p.id})}" class="btn btn-sm btn-success" title="Input Servis Baru">
+                                <i class="bi bi-tools"></i>
+                            </a>
+                            <a th:href="@{/customer/delete/{id}(id=${p.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')" title="Hapus Pelanggan">
+                                <i class="bi bi-trash"></i>
+                            </a>
+
+                            <!-- Modal Edit Per Row -->
+                            <div class="modal fade" th:id="'modalEdit' + ${p.id}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-warning">
+                                            <h5 class="modal-title">Edit Pelanggan: <span th:text="${p.name}"></span></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form th:action="@{/customer/update}" method="post">
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id" th:value="${p.id}">
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nomor WhatsApp</label>
+                                                    <input type="text" name="phoneNumber" class="form-control"
+                                                           th:value="${p.phoneNumber}" required
+                                                           pattern="^(\+62|62|0)8[1-9][0-9]{6,9}$"
+                                                           title="Masukkan nomor HP yang valid (awalan 08, 628, atau +628)">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Alamat Lengkap</label>
+                                                    <textarea name="address" class="form-control" rows="3" required th:text="${p.address}"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                         </td>
                     </tr>
                     </tbody>
@@ -64,21 +118,27 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form th:action="@{/add-customer}" method="post">
+            <form th:action="@{/customer/save}" method="post">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Nama Lengkap</label>
-                        <input type="text" name="nama" class="form-control" required placeholder="Contoh: Budi Santoso">
+                        <input type="text" name="name" class="form-control" required placeholder="Contoh: Budi Santoso">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Nomor WhatsApp</label>
-                        <input type="text" name="noHp" class="form-control" required placeholder="0812...">
+                        <input type="text" name="phoneNumber" class="form-control" required
+                               placeholder="Contoh: 08123456789"
+                               pattern="^(\+62|62|0)8[1-9][0-9]{6,9}$"
+                               title="Masukkan nomor HP yang valid (awalan 08, 628, atau +628)">
+                        <div class="form-text text-success">
+                            <i class="bi bi-whatsapp"></i> Pastikan nomor ini terhubung dengan WhatsApp aktif.
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Alamat Lengkap</label>
-                        <textarea name="alamat" class="form-control" rows="3" required placeholder="Jl. Mawar No. 10..."></textarea>
+                        <textarea name="address" class="form-control" rows="3" required placeholder="Jl. Mawar No. 10..."></textarea>
                     </div>
                 </div>
 

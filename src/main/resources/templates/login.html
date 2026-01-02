@@ -33,7 +33,7 @@
             <small>Registrasi berhasil! Silakan login.</small>
         </div>
 
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{/auth/login}" method="post">
 
             <div class="mb-3">
                 <label class="form-label text-secondary small fw-bold">USERNAME</label>
@@ -60,7 +60,7 @@
 
         <div class="text-center">
             <p class="text-muted small mb-2">Belum punya akun?</p>
-            <a th:href="@{/register}" class="btn btn-outline-success w-100 btn-sm">
+            <a th:href="@{/user/register}" class="btn btn-outline-success w-100 btn-sm">
                 <i class="bi bi-person-plus"></i> Buat Akun Baru
             </a>
         </div>

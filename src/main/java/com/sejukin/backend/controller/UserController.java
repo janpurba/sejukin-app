@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -25,11 +27,11 @@ public class UserController {
         return "register";
     }
 
-    @PostMapping("/save-user")
+    @PostMapping("/save")
     public String saveUser(@ModelAttribute User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ADMIN");
+        // Role sekarang dihandle via level_id (Lookup), default null atau set manual nanti
         userRepository.save(user);
-        return "redirect:/login?registered"; // Balik ke login setelah sukses
+        return "redirect:/auth/login?registered"; // Balik ke login setelah sukses
     }
 }

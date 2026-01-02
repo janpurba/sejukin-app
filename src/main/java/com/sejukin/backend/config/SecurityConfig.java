@@ -25,19 +25,21 @@ public class SecurityConfig {
                         .cacheControl(cache -> cache.disable())
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register","/save-user","/login","/css/**",
+                        .requestMatchers("/user/register","/user/save","/auth/login","/css/**",
                                 "/js/**", "/images/**")
                         .permitAll() // Aset statis boleh diakses
                         .anyRequest().authenticated() // Sisanya HARUS LOGIN
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Kita akan buat halaman login sendiri
+                        .loginPage("/auth/login") // Kita akan buat halaman login sendiri
+                        .loginProcessingUrl("/auth/login")
                         .defaultSuccessUrl("/dashboard", true)
+                        .failureUrl("/auth/login?error") // Redirect jika gagal login
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutRequestMatcher(request -> request.getRequestURI().equals("/logout"))
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutRequestMatcher(request -> request.getRequestURI().equals("/auth/logout"))
+                        .logoutSuccessUrl("/auth/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
@@ -58,16 +60,5 @@ public class SecurityConfig {
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return username -> userRepository.findByUsername(username)
-                .map(user -> org.springframework.security.core.userdetails.User
-                        .withUsername(user.getUsername())
-                        .password(user.getPassword()) // Password sudah ter-enkripsi
-                        .roles(user.getRole())
-                        .build())
-                .orElseThrow(() -> new UsernameNotFoundException("User tidak ditemukan: " + username));
     }
 }

@@ -21,22 +21,38 @@
         </p>
 
         <div class="row mt-4">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="card text-white bg-primary mb-3 shadow">
-                    <div class="card-header">Total Pelanggan</div>
+                    <div class="card-header">Total Pelanggan Terdaftar</div>
                     <div class="card-body">
                         <h1 class="card-title display-4" th:text="${totalPelanggan}">0</h1>
-                        <p class="card-text">Orang terdaftar dalam sistem.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-3">
+                <div class="card text-white bg-info mb-3 shadow">
+                    <div class="card-header">Total Servis</div>
+                    <div class="card-body">
+                        <h1 class="card-title display-4" th:text="${totalLayanan}">0</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
                 <div class="card text-white bg-success mb-3 shadow">
-                    <div class="card-header">Pengingat Terkirim</div>
+                    <div class="card-header">Pengingat Terkirim Via Whatsapp</div>
                     <div class="card-body">
                         <h1 class="card-title display-4" th:text="${totalPengingat}">0</h1>
-                        <p class="card-text">Pesan WhatsApp/Email reminder sukses.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-dark bg-warning mb-3 shadow">
+                    <div class="card-header">Pengingat Pending</div>
+                    <div class="card-body">
+                        <h1 class="card-title display-4" th:text="${totalPending}">0</h1>
                     </div>
                 </div>
             </div>

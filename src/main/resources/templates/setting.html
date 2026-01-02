@@ -22,7 +22,7 @@
                 <h5 class="card-title">Jadwal Servis Otomatis</h5>
                 <p class="text-muted">Tentukan berapa hari jarak antar servis rutin.</p>
 
-                <form th:action="@{/settings/save}" method="post">
+                <form th:action="@{/dashboard/settings/save}" method="post">
                     <div class="mb-3">
                         <label class="form-label">Interval Reminder (Hari)</label>
                         <input type="number" name="interval" th:value="${intervalHari}" class="form-control" required>
