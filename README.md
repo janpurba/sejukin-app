@@ -1,4 +1,4 @@
-# ❄️ Sejukin App - AC Service Management System
+# ❄️ Sejukin App - Service Management System
 
 A web-based application designed to assist field technicians in managing customer data, service history, and automated maintenance reminders. Built with a focus on data isolation (multi-tenancy) and clean architecture.
 
