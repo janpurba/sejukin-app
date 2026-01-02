@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="sidebar" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 250px; min-height: 100vh;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <span class="fs-4">❄️ Sejukin</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a th:href="@{/dashboard}" class="nav-link text-white"
+               th:classappend="${activePage == 'dashboard'} ? 'active bg-primary' : ''">
+                📊 Dashboard
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/customer}" class="nav-link text-white"
+               th:classappend="${activePage == 'customer'} ? 'active bg-primary' : ''">
+                👥 Data Pelanggan
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/settings}" class="nav-link text-white"
+               th:classappend="${activePage == 'settings'} ? 'active bg-primary' : ''">
+                ⚙️ Pengaturan
+            </a>
+        </li>
+    </ul>
+    <hr>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="d-flex align-items-center text-white bg-transparent border-0 w-100 p-2 rounded hover-bg-secondary">
+            <i class="bi bi-box-arrow-right me-2"></i>
+
+            <strong>Sign out</strong>
+        </button>
+    </form>
+</div>
+
+</body>
+</html>

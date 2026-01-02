@@ -21,7 +21,7 @@ public class WhatsAppReminderScheduler {
 
     // Jalan setiap 10 detik (untuk testing malam ini)
     // Nanti kalau production, ganti jadi cron = "0 0 8 * * *" (Jam 8 Pagi Tiap Hari)
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 18000000)
     public void checkAndSendReminders() {
         LocalDate today = LocalDate.now();
 

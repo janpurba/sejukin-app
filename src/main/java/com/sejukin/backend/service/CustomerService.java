@@ -8,10 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
-@Slf4j // Ini pengganti System.out.println (Logging canggih)
+@Slf4j
 @Service
 public class CustomerService {
 
@@ -19,24 +21,24 @@ public class CustomerService {
     @Autowired private UserRepository userRepository;
 
     // Helper: Cari User berdasarkan Username (Private, cuma dipakai internal class ini)
+    @Cacheable(value = "userDetailsRedis")
     private User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User tidak valid"));
     }
 
     // MENU 1: Ambil semua pelanggan milik user tertentu
+    @Cacheable(value = "customerList")
     public List<Customer> getAllCustomersByUsername(String username) {
         User currentUser = getUserByUsername(username);
         log.info("Mengambil data pelanggan untuk user: {}", username);
         return customerRepository.findByTenantId(currentUser.getId());
     }
 
-    // MENU 2: Simpan Pelanggan Baru
     @Transactional // Pastikan aman
+    @CacheEvict(value = "customerList", allEntries = true)
     public void saveCustomer(Customer customer, String username) {
         User currentUser = getUserByUsername(username);
-
-        // Logic Tenant ID pindah ke sini (Controller tidak perlu tahu)
         customer.setTenantId(currentUser.getId());
 
         customerRepository.save(customer);

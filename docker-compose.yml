@@ -24,8 +24,18 @@ services:
       - DB_HOST=mysqldb
       - DB_USERNAME=root
       - DB_PASSWORD=root
+      - SPRING_DATA_REDIS_HOST=redis  # Panggil nama service-nya
+      - SPRING_DATA_REDIS_PORT=6379
     depends_on:
       - mysqldb
+      - redis
+    networks:
+      - sejukin-net
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
     networks:
       - sejukin-net
 

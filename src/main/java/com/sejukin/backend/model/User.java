@@ -1,22 +1,41 @@
 package com.sejukin.backend.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
+import java.io.Serializable;
+
 @Entity
-@Table(name = "users") // Tabel pengguna
-public class User {
+@Table(name = "users") // Nama tabel di database
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Ini akan jadi tenantId nanti
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String username;
 
     @Column(nullable = false)
-    private String password; // Harus terenkripsi (BCrypt)
+    private String password; // Akan disimpan dalam bentuk terenkripsi (BCrypt)
 
-    private String role; // ROLE_ADMIN, ROLE_USER
+    private String role; // Contoh: "ADMIN", "TEKNISI"
+
+    // Constructor Kosong
+    public User() {}
+
+    // Constructor Isi
+    public User(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }
