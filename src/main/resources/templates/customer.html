@@ -140,6 +140,17 @@
                         <label class="form-label">Alamat Lengkap</label>
                         <textarea name="address" class="form-control" rows="3" required placeholder="Jl. Mawar No. 10..."></textarea>
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Layanan Awal (Opsional)</label>
+                        <select name="serviceTypeId" class="form-select">
+                            <option value="" selected>-- Pilih Layanan --</option>
+                            <option th:each="s : ${userServices}"
+                                    th:value="${s.serviceType.id}"
+                                    th:text="${s.serviceType.description} + ' (Reminder: ' + ${s.reminderDays} + ' Hari)'"></option>
+                        </select>
+                        <div class="form-text">Jika dipilih, sistem akan otomatis menjadwalkan pengingat servis berikutnya.</div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
